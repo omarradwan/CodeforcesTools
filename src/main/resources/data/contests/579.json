@@ -1,0 +1,187 @@
+{
+  "contest": {
+    "phase": "FINISHED",
+    "relativeTimeSeconds": 83523283,
+    "durationSeconds": 9000,
+    "name": "Codeforces Round #320 (Div. 2) [Bayan Thanks-Round]",
+    "frozen": false,
+    "id": 579,
+    "type": "CF",
+    "startTimeSeconds": 1442416500
+  },
+  "rows": [
+    {
+      "unsuccessfulHackCount": 0,
+      "problemResults": [
+        {
+          "bestSubmissionTimeSeconds": 180,
+          "type": "FINAL",
+          "rejectedAttemptCount": 0,
+          "points": 247
+        },
+        {
+          "bestSubmissionTimeSeconds": 561,
+          "type": "FINAL",
+          "rejectedAttemptCount": 0,
+          "points": 482
+        },
+        {
+          "bestSubmissionTimeSeconds": 2161,
+          "type": "FINAL",
+          "rejectedAttemptCount": 0,
+          "points": 1070
+        },
+        {
+          "bestSubmissionTimeSeconds": 1607,
+          "type": "FINAL",
+          "rejectedAttemptCount": 2,
+          "points": 1692
+        },
+        {
+          "bestSubmissionTimeSeconds": 2773,
+          "type": "FINAL",
+          "rejectedAttemptCount": 0,
+          "points": 2448
+        },
+        {
+          "type": "FINAL",
+          "rejectedAttemptCount": 0,
+          "points": 0
+        }
+      ],
+      "penalty": 0,
+      "successfulHackCount": 1,
+      "rank": 1,
+      "party": {
+        "contestId": 579,
+        "ghost": false,
+        "members": [
+          {
+            "handle": "-Morass-"
+          }
+        ],
+        "participantType": "CONTESTANT",
+        "startTimeSeconds": 1442416500,
+        "room": 18
+      },
+      "points": 6039
+    },
+    {
+      "unsuccessfulHackCount": 80,
+      "problemResults": [
+        {
+          "type": "FINAL",
+          "rejectedAttemptCount": 5,
+          "points": 0
+        },
+        {
+          "type": "FINAL",
+          "rejectedAttemptCount": 16,
+          "points": 0
+        },
+        {
+          "type": "FINAL",
+          "rejectedAttemptCount": 21,
+          "points": 0
+        },
+        {
+          "bestSubmissionTimeSeconds": 7334,
+          "type": "FINAL",
+          "rejectedAttemptCount": 9,
+          "points": 600
+        },
+        {
+          "type": "FINAL",
+          "rejectedAttemptCount": 14,
+          "points": 0
+        },
+        {
+          "type": "FINAL",
+          "rejectedAttemptCount": 0,
+          "points": 0
+        }
+      ],
+      "penalty": 0,
+      "successfulHackCount": 0,
+      "rank": 3763,
+      "party": {
+        "contestId": 579,
+        "ghost": false,
+        "members": [
+          {
+            "handle": "-emli-"
+          }
+        ],
+        "participantType": "CONTESTANT",
+        "startTimeSeconds": 1442416500,
+        "room": 73
+      },
+      "points": -3400
+    }
+  ],
+  "problems": [
+    {
+      "contestId": 579,
+      "name": "Raising Bacteria",
+      "index": "A",
+      "type": "PROGRAMMING",
+      "points": 250,
+      "tags": [
+        "bitmasks"
+      ]
+    },
+    {
+      "contestId": 579,
+      "name": "Finding Team Member",
+      "index": "B",
+      "type": "PROGRAMMING",
+      "points": 500,
+      "tags": [
+        "brute force",
+        "implementation",
+        "sortings"
+      ]
+    },
+    {
+      "contestId": 579,
+      "name": "A Problem about Polyline",
+      "index": "C",
+      "type": "PROGRAMMING",
+      "points": 1250,
+      "tags": [
+        "binary search",
+        "math"
+      ]
+    },
+    {
+      "contestId": 579,
+      "name": "\"Or\" Game",
+      "index": "D",
+      "type": "PROGRAMMING",
+      "points": 2000,
+      "tags": [
+        "brute force",
+        "greedy",
+        "math"
+      ]
+    },
+    {
+      "contestId": 579,
+      "name": "Weakness and Poorness",
+      "index": "E",
+      "type": "PROGRAMMING",
+      "points": 3000,
+      "tags": [
+        "ternary search"
+      ]
+    },
+    {
+      "contestId": 579,
+      "name": "LCS Again",
+      "index": "F",
+      "type": "PROGRAMMING",
+      "points": 3000,
+      "tags": []
+    }
+  ]
+}

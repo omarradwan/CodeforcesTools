@@ -1,0 +1,193 @@
+{
+  "contest": {
+    "phase": "FINISHED",
+    "relativeTimeSeconds": 83523280,
+    "durationSeconds": 9000,
+    "name": "Codeforces Round #320 (Div. 1) [Bayan Thanks-Round]",
+    "frozen": false,
+    "id": 578,
+    "type": "CF",
+    "startTimeSeconds": 1442416500
+  },
+  "rows": [
+    {
+      "unsuccessfulHackCount": 2,
+      "problemResults": [
+        {
+          "bestSubmissionTimeSeconds": 489,
+          "type": "FINAL",
+          "rejectedAttemptCount": 0,
+          "points": 242
+        },
+        {
+          "bestSubmissionTimeSeconds": 1833,
+          "type": "FINAL",
+          "rejectedAttemptCount": 0,
+          "points": 440
+        },
+        {
+          "bestSubmissionTimeSeconds": 1491,
+          "type": "FINAL",
+          "rejectedAttemptCount": 0,
+          "points": 678
+        },
+        {
+          "bestSubmissionTimeSeconds": 5440,
+          "type": "FINAL",
+          "rejectedAttemptCount": 0,
+          "points": 1600
+        },
+        {
+          "bestSubmissionTimeSeconds": 3783,
+          "type": "FINAL",
+          "rejectedAttemptCount": 0,
+          "points": 2057
+        },
+        {
+          "type": "FINAL",
+          "rejectedAttemptCount": 0,
+          "points": 0
+        }
+      ],
+      "penalty": 0,
+      "successfulHackCount": 6,
+      "rank": 1,
+      "party": {
+        "contestId": 578,
+        "ghost": false,
+        "members": [
+          {
+            "handle": "-emli-"
+          }
+        ],
+        "participantType": "CONTESTANT",
+        "startTimeSeconds": 1442416500,
+        "room": 2
+      },
+      "points": 5517
+    },
+    {
+      "unsuccessfulHackCount": 0,
+      "problemResults": [
+        {
+          "bestSubmissionTimeSeconds": 749,
+          "type": "FINAL",
+          "rejectedAttemptCount": 0,
+          "points": 238
+        },
+        {
+          "bestSubmissionTimeSeconds": 1481,
+          "type": "FINAL",
+          "rejectedAttemptCount": 0,
+          "points": 452
+        },
+        {
+          "bestSubmissionTimeSeconds": 1928,
+          "type": "FINAL",
+          "rejectedAttemptCount": 1,
+          "points": 604
+        },
+        {
+          "bestSubmissionTimeSeconds": 4355,
+          "type": "FINAL",
+          "rejectedAttemptCount": 0,
+          "points": 1780
+        },
+        {
+          "bestSubmissionTimeSeconds": 5172,
+          "type": "FINAL",
+          "rejectedAttemptCount": 0,
+          "points": 1804
+        },
+        {
+          "type": "FINAL",
+          "rejectedAttemptCount": 0,
+          "points": 0
+        }
+      ],
+      "penalty": 0,
+      "successfulHackCount": 5,
+      "rank": 2,
+      "party": {
+        "contestId": 578,
+        "ghost": false,
+        "members": [
+          {
+            "handle": "-Morass-"
+          }
+        ],
+        "participantType": "CONTESTANT",
+        "startTimeSeconds": 1442416500,
+        "room": 5
+      },
+      "points": 5378
+    }
+  ],
+  "problems": [
+    {
+      "contestId": 578,
+      "name": "A Problem about Polyline",
+      "index": "A",
+      "type": "PROGRAMMING",
+      "points": 250,
+      "tags": [
+        "geometry",
+        "math"
+      ]
+    },
+    {
+      "contestId": 578,
+      "name": "\"Or\" Game",
+      "index": "B",
+      "type": "PROGRAMMING",
+      "points": 500,
+      "tags": [
+        "brute force",
+        "greedy"
+      ]
+    },
+    {
+      "contestId": 578,
+      "name": "Weakness and Poorness",
+      "index": "C",
+      "type": "PROGRAMMING",
+      "points": 750,
+      "tags": [
+        "ternary search"
+      ]
+    },
+    {
+      "contestId": 578,
+      "name": "LCS Again",
+      "index": "D",
+      "type": "PROGRAMMING",
+      "points": 2500,
+      "tags": [
+        "dp",
+        "greedy"
+      ]
+    },
+    {
+      "contestId": 578,
+      "name": "Walking!",
+      "index": "E",
+      "type": "PROGRAMMING",
+      "points": 2750,
+      "tags": [
+        "constructive algorithms",
+        "greedy"
+      ]
+    },
+    {
+      "contestId": 578,
+      "name": "Mirror Box",
+      "index": "F",
+      "type": "PROGRAMMING",
+      "points": 3000,
+      "tags": [
+        "matrices",
+        "trees"
+      ]
+    }
+  ]
+}
