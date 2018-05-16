@@ -2,34 +2,35 @@ import com.google.gson.Gson;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
+import utils.Scanner;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 
 public class Main {
 
-    private static Scanner sc;
+    private static utils.Scanner sc;
     private static HashSet<String> users;
     private static ArrayList<HashMap<String, Integer>> hacksScore;
     private static ArrayList<HashMap<String, Integer>> recentRanks;
     private static ArrayList<ArrayList<Integer>> contestsPoints;
     private static ArrayList<ArrayList<Integer>> contestsPenalties;
     private static final String dataDirectory = "src/main/resources/data/";
+    private static final String objectsDirectory = "objects/";
 
     public static HashMap<Integer, Integer> evaluateContestPerformance(String handle, boolean plot) {
         return null;
     }
 
-    public static void preprocessEvaluateContestPerformance() throws IOException, ParseException {
+    public static void preprocess() throws IOException, ParseException {
         init();
         preprocessHandles();
         preprocessContests();
         System.err.println(recentRanks.get(579));
         preprocessStatus();
+        preprocessUsersRatings();
     }
 
     public static void preprocessHandles() {
@@ -89,6 +90,18 @@ public class Main {
         }
     }
 
+    public  static void preprocessUsersRatings() throws IOException, ParseException {
+        TreeMap<Integer, ArrayList<String>> usersRatings = new TreeMap<>();
+        for (String handle: users) {
+            // read user's rating
+            int userRating = ((Long) sc.readObject(dataDirectory + "users/" + handle + "/rating.json").get("rating")).intValue();
+            if(!usersRatings.containsKey(userRating))
+                usersRatings.put(userRating, new ArrayList<String>());
+            usersRatings.get(userRating).add(handle);
+        }
+        dumpToJson(usersRatings, "usersRatings");
+
+    }
     /***
      * construct new contest performance to each user
      */
@@ -100,6 +113,9 @@ public class Main {
             int lastContestId = -1, curContestId = -1, points = 0, penalty = 0;
             ContestPerformance curContest = null;
             HashSet<String> takenProblems = new HashSet<>();
+            // Accepted submission for user
+            ArrayList<Integer> acceptedSubmissions = new ArrayList<>();
+
             // iterate over each submission
             while (true) {
                 JSONObject submission = sc.nextObject();
@@ -111,8 +127,14 @@ public class Main {
                 }
                 // filter non-contestants
                 String type = (String) ((JSONObject)submission.get("author")).get(("participantType"));
+                String verdict = (String) submission.get("verdict");
+
+                if(verdict.equals("OK"))
+                    acceptedSubmissions.add(((Long) submission.get("creationTimeSeconds")).intValue());
+
                 if (!type.equals("CONTESTANT"))
                     continue;
+
 
                 curContestId = ((Long) submission.get("contestId")).intValue();
                 JSONObject problem = (JSONObject) submission.get("problem");
@@ -147,15 +169,24 @@ public class Main {
                     penalty += secs;
                 }
             }
-            // dump to json
-            Gson gson = new Gson();
-            System.err.println(gson.toJson(user));
-            gson.toJson(user, new FileWriter(handle + ".json"));
+            Collections.sort(acceptedSubmissions);
+            dumpToJson(user, "users/" + handle);
+            Collections.reverse(acceptedSubmissions);
+            dumpToJson(acceptedSubmissions, "acceptedSubmissions/" + handle);
         }
     }
 
+    public static void dumpToJson(Object object, String path) throws IOException {
+        Gson gson = new Gson();
+        System.err.println(gson.toJson(object));
+        FileWriter writer =  new FileWriter(objectsDirectory + path + ".json");
+        gson.toJson(object, writer);
+        writer.close();
+
+    }
+
     public static void main(String[] args) throws IOException, ParseException {
-        preprocessEvaluateContestPerformance();
+        preprocess();
     }
 }
 
