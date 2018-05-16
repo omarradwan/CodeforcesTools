@@ -16,7 +16,7 @@ public class BinarySearch {
         return lo;
     }
 
-    public static int lowerBound(ArrayList<Integer> array, int pivot, int lo, int hi){
+    public static int lowerBound(ArrayList<Long> array, int pivot, int lo, int hi){
         int ans = -1;
         while (lo <= hi){
             int mid = lo + hi >> 1;
@@ -28,26 +28,26 @@ public class BinarySearch {
         return ans;
     }
 
-    public static int reversedLowerBound(ArrayList<Integer> array, int pivot){
+    public static int reversedLowerBound(ArrayList<Long> array, int pivot){
         int lo = 0, hi = array.size() - 1, ans = -1;
         while (lo <= hi){
             int mid = lo + hi >> 1;
-            if(array.get(mid) >= pivot)
-                lo = (ans = mid) + 1;
+            if (array.get(mid) <= pivot)
+                hi = (ans = mid) - 1;
             else
-                hi = mid - 1;
+                lo = mid + 1;
         }
         return ans;
     }
 
-    public static int reversedUpperBound(ArrayList<Integer> array, int pivot){
+    public static int reversedUpperBound(ArrayList<Long> array, int pivot){
         int lo = 0, hi = array.size() - 1, ans = -1;
         while (lo <= hi){
             int mid = lo + hi >> 1;
-            if(array.get(mid) <= pivot)
-                hi = (ans = mid) - 1;
+            if (array.get(mid) >= pivot)
+                lo = (ans = mid) + 1;
             else
-                lo = mid + 1;
+                hi = mid - 1;
         }
         return ans;
     }

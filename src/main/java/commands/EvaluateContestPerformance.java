@@ -13,11 +13,11 @@ import java.util.HashMap;
 public class EvaluateContestPerformance {
 
     private static Scanner sc;
-    private static final String objectsDirectory = "objects/";
+    private static final String usersDirectory = "objects/users/";
 
     public static JSONArray readUserContests(String handle) throws IOException, ParseException {
         sc = new Scanner();
-        JSONObject userObject = sc.readObject(objectsDirectory + handle + ".json");
+        JSONObject userObject = sc.readObject(usersDirectory + handle + ".json");
         return (JSONArray) userObject.get("contests");
     }
 
@@ -30,14 +30,15 @@ public class EvaluateContestPerformance {
             int contestId = ((Long) contest.get("contestId")).intValue();
             int userPoints = ((Long) contest.get("userPoints")).intValue();
             int userPenalty = ((Long) contest.get("userPenalty")).intValue();
-            ArrayList<Integer> contestPoints = (ArrayList<Integer>) contest.get("contestPoints");
-            ArrayList<Integer> contestPenalties = (ArrayList<Integer>) contest.get("contestPenalties");
+            ArrayList<Long> contestPoints = (ArrayList<Long>) contest.get("contestPoints");
+            ArrayList<Long> contestPenalties = (ArrayList<Long>) contest.get("contestPenalties");
 
             // search for the new rank
             int prevPoint = BinarySearch.reversedLowerBound(contestPoints, userPoints);
-            if (contestPoints.get(prevPoint) != userPoints)
+            if (prevPoint == -1 || contestPoints.get(prevPoint) != userPoints)
             {
-                result.put(contestId, prevPoint + 2);
+                int newRank = prevPoint == -1? 1 : prevPoint + 1;
+                result.put(contestId, newRank);
                 continue;
             }
             int nextPoint = BinarySearch.reversedUpperBound(contestPoints, userPoints);
