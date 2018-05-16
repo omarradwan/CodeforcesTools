@@ -1,3 +1,5 @@
+package utils;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -27,4 +29,9 @@ public class Scanner {
     public JSONObject nextObject() {
         return idx == -1? null : (JSONObject) array.get(idx--);
     }
+
+    public Object nextObjectT() {
+        return idx == -1? null : (Object) array.get(idx--);
+    }
+
 }
