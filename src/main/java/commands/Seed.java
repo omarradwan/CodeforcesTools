@@ -48,6 +48,16 @@ public class Seed {
             AcceptedProblem acceptedProblem = new AcceptedProblem(contestId, index, solvedCount);
             acceptedProblemsMap.put(contestId + index, acceptedProblem);
         }
+
+        // Create list of problems sorted by problem count
+        List<Map.Entry<String, AcceptedProblem>> problemSolvedCountList = new LinkedList<>(acceptedProblemsMap.entrySet());
+        Collections.sort(problemSolvedCountList, new Comparator<Object>() {
+            @SuppressWarnings("unchecked")
+            public int compare(Object o1, Object o2) {
+                return ((AcceptedProblem) ((((Map.Entry<String, AcceptedProblem>)o1)).getValue())).compareTo((AcceptedProblem)(((Map.Entry<String, AcceptedProblem>)o2)).getValue());
+            }
+        });
+        dumpToJson(problemSolvedCountList, "problemSolvedCountList");
     }
 
     public static void preprocessHandles() {
@@ -154,8 +164,10 @@ public class Seed {
                     problemId = "" + problem.get("contestId") + problem.get("index");
                     long problemPoints = (long) problem.getOrDefault("points", 1000);
                     ArrayList<String> tags = (ArrayList<String>) problem.getOrDefault("tags", new ArrayList<String>());
-                    acceptedProblemsMap.get(problemId).setPoints(problemPoints);
-                    acceptedProblemsMap.get(problemId).addTags(tags);
+                    if(acceptedProblemsMap.containsKey(problemId)) {
+                        acceptedProblemsMap.get(problemId).setPoints(problemPoints);
+                        acceptedProblemsMap.get(problemId).addTags(tags);
+                    }
                 }
 
                 if (!type.equals("CONTESTANT"))
@@ -195,12 +207,23 @@ public class Seed {
                     penalty += secs;
                 }
 
-                if (problemId != null)
+                if (problemId != null &&  acceptedProblemsMap.containsKey(problemId)) {
+                    acceptedProblemsMap.get(problemId).setCreationTime(acceptedSubmissions.get(acceptedSubmissions.size() - 1));
                     acceptedProblems.add(acceptedProblemsMap.get(problemId));
+                }
             }
-            dumpToJson(user, "users/" + handle);
+
+
+            Collections.sort(acceptedProblems, new Comparator<Object>() {
+                @SuppressWarnings("unchecked")
+                public int compare(Object o1, Object o2) {
+                    return (int) (((AcceptedProblem) o1).getCreationTime() -  ((AcceptedProblem) o2).getCreationTime());
+                }
+            });
             Collections.sort(acceptedSubmissions);
             Collections.reverse(acceptedSubmissions);
+
+            dumpToJson(user, "users/" + handle);
             dumpToJson(acceptedSubmissions, "acceptedSubmissions/" + handle);
             dumpToJson(acceptedProblems, "acceptedProblems/" + handle);
         }
@@ -208,7 +231,7 @@ public class Seed {
 
     public static void dumpToJson(Object object, String path) throws IOException {
         Gson gson = new Gson();
-        System.err.println(gson.toJson(object));
+//        System.err.println(gson.toJson(object));
         FileWriter writer =  new FileWriter(objectsDirectory + path + ".json");
         gson.toJson(object, writer);
         writer.close();
