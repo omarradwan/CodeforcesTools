@@ -1,6 +1,7 @@
 package commands;
 
 import com.google.gson.Gson;
+import models.AcceptedProblem;
 import models.ContestPerformance;
 import models.User;
 import org.json.simple.JSONArray;
@@ -21,6 +22,7 @@ public class Seed {
     private static ArrayList<HashMap<String, Integer>> recentRanks;
     private static ArrayList<ArrayList<Integer>> contestsPoints;
     private static ArrayList<ArrayList<Integer>> contestsPenalties;
+    private static HashMap<String, AcceptedProblem> acceptedProblemsMap;
     private static final String dataDirectory = "src/main/resources/data/";
     private static final String objectsDirectory = "objects/";
 
@@ -29,8 +31,23 @@ public class Seed {
         init();
         preprocessHandles();
         preprocessContests();
+        preprocessProblems();
         preprocessStatus();
         preprocessUsersRatings();
+    }
+
+    private static void preprocessProblems() throws IOException, ParseException {
+        JSONObject problems = sc.readObject(dataDirectory + "problems/problems.json");
+        JSONArray problemStatistics = (JSONArray) problems.get("problemStatistics");
+        acceptedProblemsMap = new HashMap<>();
+        for (int i = 0; i < problemStatistics.size(); i++) {
+            JSONObject problem = (JSONObject) problemStatistics.get(i);
+            String contestId = "" + problem.get("contestId");
+            String index = "" + problem.get("index");
+            long solvedCount = (long)problem.get("solvedCount");
+            AcceptedProblem acceptedProblem = new AcceptedProblem(contestId, index, solvedCount);
+            acceptedProblemsMap.put(contestId + index, acceptedProblem);
+        }
     }
 
     public static void preprocessHandles() {
@@ -116,7 +133,7 @@ public class Seed {
             HashSet<String> takenProblems = new HashSet<>();
             // Accepted submission for user
             ArrayList<Integer> acceptedSubmissions = new ArrayList<>();
-
+            ArrayList<AcceptedProblem> acceptedProblems = new ArrayList<>();
             // iterate over each submission
             while (true) {
                 JSONObject submission = sc.nextObject();
@@ -130,8 +147,16 @@ public class Seed {
                 String type = (String) ((JSONObject)submission.get("author")).get(("participantType"));
                 String verdict = (String) submission.get("verdict");
 
-                if(verdict.equals("OK"))
+                String problemId = null;
+                if(verdict.equals("OK")) {
                     acceptedSubmissions.add(((Long) submission.get("creationTimeSeconds")).intValue());
+                    JSONObject problem = (JSONObject) submission.get("problem");
+                    problemId = "" + problem.get("contestId") + problem.get("index");
+                    long problemPoints = (long) problem.getOrDefault("points", 1000);
+                    ArrayList<String> tags = (ArrayList<String>) problem.getOrDefault("tags", new ArrayList<String>());
+                    acceptedProblemsMap.get(problemId).setPoints(problemPoints);
+                    acceptedProblemsMap.get(problemId).addTags(tags);
+                }
 
                 if (!type.equals("CONTESTANT"))
                     continue;
@@ -169,11 +194,15 @@ public class Seed {
                     points++;
                     penalty += secs;
                 }
+
+                if (problemId != null)
+                    acceptedProblems.add(acceptedProblemsMap.get(problemId));
             }
             dumpToJson(user, "users/" + handle);
             Collections.sort(acceptedSubmissions);
             Collections.reverse(acceptedSubmissions);
             dumpToJson(acceptedSubmissions, "acceptedSubmissions/" + handle);
+            dumpToJson(acceptedProblems, "acceptedProblems/" + handle);
         }
     }
 
