@@ -8,7 +8,7 @@ public class TopologicalOrdering {
 
     private static int N;
     private static ArrayList<Integer>[] DAG;
-    private static int[] deadlocksImportance;
+    private static long[] deadlocksImportance;
     private static String[] deadlocksProblemId;
     private static Deadlock[] deadlocks;
 
@@ -44,11 +44,11 @@ public class TopologicalOrdering {
         return sortedDeadlocks;
     }
 
-    public static void setDAG(ArrayList<Integer>[] DAG) {
+    public static void setDeadlockAdj(ArrayList<Integer>[] DAG) {
         TopologicalOrdering.DAG = DAG;
     }
 
-    public static void setDeadlocksImportance(int[] deadlocksImportance) {
+    public static void setDeadlocksImportance(long[] deadlocksImportance) {
         TopologicalOrdering.deadlocksImportance = deadlocksImportance;
     }
 
@@ -59,10 +59,10 @@ public class TopologicalOrdering {
     static class Deadlock implements Comparable<Deadlock> {
 
         int deadlockId;
-        int deadlockImportance;
+        long deadlockImportance;
         String deadlockProblemId;
 
-        Deadlock(int deadlockId, int deadlockImportance, String deadlockProblemId) {
+        Deadlock(int deadlockId, long deadlockImportance, String deadlockProblemId) {
             this.deadlockId = deadlockId;
             this.deadlockImportance = deadlockImportance;
             this.deadlockProblemId = deadlockProblemId;
@@ -71,7 +71,7 @@ public class TopologicalOrdering {
         @Override
         public int compareTo(Deadlock o) {
             if (deadlockImportance != o.deadlockImportance)
-                return o.deadlockImportance - deadlockImportance;
+                return Long.compare(o.deadlockImportance, deadlockImportance);
             return deadlockProblemId.compareTo(o.deadlockProblemId);
         }
     }
