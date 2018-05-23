@@ -17,6 +17,12 @@ public class AcceptedProblem  implements Comparable<AcceptedProblem>{
         tags = new HashSet<>();
     }
 
+    public AcceptedProblem(String id, long solvedCount) {
+        this.id = id;
+        this.solvedCount = solvedCount;
+        tags = new HashSet<>();
+    }
+
     public void addTags(ArrayList<String> tags) {
         this.tags.addAll(tags);
     }
@@ -45,6 +51,11 @@ public class AcceptedProblem  implements Comparable<AcceptedProblem>{
 
     public void setCreationTime(long creationTime) {
         this.creationTime = creationTime;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("ProblemId: %s, SolvedCount: %d, Points: %d", id, solvedCount, points);
     }
 
     @Override

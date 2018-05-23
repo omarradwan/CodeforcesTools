@@ -42,22 +42,24 @@ public class SelectProblems {
             problemJson = (JSONObject) problemJson.getOrDefault ("value", null);
             String problemId = (String) problemJson.get("id");
             long problemCount = (long) problemJson.get("solvedCount");
-            long problemPoints = (long) problemJson.get("points");
+            long problemPoints = (long) problemJson.getOrDefault("points", 1000);
+            if(problemPoints == 0) problemPoints = 1000;
             ArrayList<String> problemTags = (ArrayList<String>) problemJson.getOrDefault("tags", new ArrayList<String>());
             AcceptedProblem problem = new AcceptedProblem(problemId, problemCount);
             problem.setPoints(problemPoints);
             problem.addTags(problemTags);
 
-            if(problemCount > maxSolved && (tag != null && !problemTags.contains(tag))) continue;
+            if(problemCount > maxSolved || (tag != null && !problemTags.contains(tag))) continue;
             if(problemCount < minSolved) break;
 
             problemsIndx.put(problem.getId(), problems.size());
             problems.add(problem);
         }
         int problemsSize = problems.size();
+        System.out.println(problemsSize);
         edgeCount = new int[problemsSize][problemsSize];
         adj = new ArrayList[problemsSize];
-        for(int i = 0; i < handles.length; i++){
+        for(int i = 0; handles != null && i < handles.length; i++){
             sc.readObject(dataDirectory + "acceptedProblems/" + handles + ".json");
             ArrayList<String> userProblems = new ArrayList<>();
             HashSet<String> userProplemsSet = new HashSet<>();
@@ -80,7 +82,7 @@ public class SelectProblems {
             }
         }
 
-        int percent = (int) (handles.length * ((p * 1.0) / 100));
+        int percent = (int) ((handles == null? 0: handles.length) * ((p * 1.0) / 100));
         for (int i = 0; i < adj.length; i++) {
             adj[i] = new ArrayList<>();
             for(int j = 0; j < adj.length; j++){
@@ -89,9 +91,12 @@ public class SelectProblems {
                     adj[i].add(j);
             }
         }
+        System.out.println(problems);
+//        for(int i = 0; i < problemsSize; i++)
+//            System.out.println(adj[i] + " " + i);
     }
 
-    public static ArrayList<ArrayList<String>> execute(String[] handles, String tag, int minSolved, int maxSolved, int p, int cnt){
+    public static ArrayList<ArrayList<String>> execute(String[] handles, String tag, int minSolved, int maxSolved, int p, int cnt) throws IOException, ParseException {
         preprocess(handles, tag, minSolved, maxSolved, p);
         sortDeadlocks();
         return sortProblems();
@@ -102,7 +107,11 @@ public class SelectProblems {
         SCC.setAdjList(adj);
         SCC.tarjanSCC();
         ArrayList<Integer>[] deadlockAdj = SCC.getDeadlockAdj();
+        for(int i = 0; i < deadlockAdj.length; i++)
+            System.out.println(deadlockAdj[i] + " " + i);
+
         deadlockIdx = SCC.getDeadlockIdx();
+        System.out.println(Arrays.toString(deadlockIdx));
 
         // construct importance and lexicographical order arrays to sort deadlocks
         int deadlocksCount = deadlockAdj.length;
@@ -121,6 +130,7 @@ public class SelectProblems {
             }
             else if (curPoints == importance[curDeadlockIdx]) {
                 String curBest = bestProblemId[curDeadlockIdx];
+                System.out.println(curId + " " + curBest);
                 bestProblemId[curDeadlockIdx] = curId.compareTo(curBest) < 0? curId : curBest;
             }
         }

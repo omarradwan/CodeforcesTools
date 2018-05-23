@@ -23,7 +23,7 @@ public class Main {
     }
 
     public static ArrayList<ArrayList<String>> selectProblems(String[] handles, String tag, int minSolved, int maxSolved, int p, int cnt) throws IOException, ParseException {
-        return SelectProblems.excute(handles, tag, minSolved, maxSolved, p, cnt);
+        return SelectProblems.execute(handles, tag, minSolved, maxSolved, p, cnt);
     }
 
     public static void main(String[] args) throws IOException, ParseException {
