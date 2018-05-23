@@ -23,7 +23,7 @@ public class SCC {
         SCCId = 0;
     }
 
-    public static ArrayList<Integer>[] tarjanSCC()
+    public static void tarjanSCC()
     {
         init();
 
@@ -31,9 +31,7 @@ public class SCC {
             if(dfs_num[i] == 0)
                 tarjanSCC(i);
 
-        System.out.println(Arrays.toString(dagIdx));
         compress();
-        return DAG;
     }
 
     static void tarjanSCC(int u)
@@ -80,5 +78,13 @@ public class SCC {
 
     public static void setAdjList(ArrayList<Integer>[] adjList) {
         SCC.adjList = adjList;
+    }
+
+    public static ArrayList<Integer>[] getDeadlockAdj() {
+        return DAG;
+    }
+
+    public static int[] getDeadlockIdx() {
+        return dagIdx;
     }
 }
