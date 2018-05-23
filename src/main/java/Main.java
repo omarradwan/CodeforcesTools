@@ -1,6 +1,7 @@
 import commands.EvaluateContestPerformance;
 import commands.GetActiveUsers;
 import commands.Seed;
+import commands.SelectProblems;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
@@ -21,10 +22,13 @@ public class Main {
         return GetActiveUsers.execute(t1, t2, rLo, rHi, cnt);
     }
 
-
+    public static ArrayList<ArrayList<String>> selectProblems(String[] handles, String tag, int minSolved, int maxSolved, int p, int cnt) throws IOException, ParseException {
+        return SelectProblems.excute(handles, tag, minSolved, maxSolved, p, cnt);
+    }
 
     public static void main(String[] args) throws IOException, ParseException {
         seed();
+        selectProblems(null, null, 0, 0, 0, 4);
     }
 }
 

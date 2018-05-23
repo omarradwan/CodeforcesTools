@@ -144,6 +144,7 @@ public class Seed {
             // Accepted submission for user
             ArrayList<Integer> acceptedSubmissions = new ArrayList<>();
             ArrayList<AcceptedProblem> acceptedProblems = new ArrayList<>();
+            HashSet<String> acceptedProblemsSet = new HashSet<>();
             // iterate over each submission
             while (true) {
                 JSONObject submission = sc.nextObject();
@@ -207,9 +208,10 @@ public class Seed {
                     penalty += secs;
                 }
 
-                if (problemId != null &&  acceptedProblemsMap.containsKey(problemId)) {
+                if (problemId != null &&  acceptedProblemsMap.containsKey(problemId) && !acceptedProblemsSet.contains(problemId)) {
                     acceptedProblemsMap.get(problemId).setCreationTime(acceptedSubmissions.get(acceptedSubmissions.size() - 1));
                     acceptedProblems.add(acceptedProblemsMap.get(problemId));
+                    acceptedProblemsSet.add(problemId);
                 }
             }
 
