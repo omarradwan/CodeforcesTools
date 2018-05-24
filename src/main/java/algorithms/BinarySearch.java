@@ -17,7 +17,7 @@ public class BinarySearch {
     }
 
     public static int lowerBound(ArrayList<Long> array, int pivot, int lo, int hi){
-        int ans = -1;
+        int ans = hi;
         while (lo <= hi){
             int mid = lo + hi >> 1;
             if(array.get(mid) >= pivot)

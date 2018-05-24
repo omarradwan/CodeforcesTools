@@ -25,3 +25,5 @@ hs_err_pid*
 *.idea
 CodeforcesTool.iml
 target/
+src/main/resources/data/*
+objects/*

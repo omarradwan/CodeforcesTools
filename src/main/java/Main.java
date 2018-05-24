@@ -28,7 +28,9 @@ public class Main {
 
     public static void main(String[] args) throws IOException, ParseException {
         seed();
-        selectProblems(null, null, 0, 0, 0, 4);
+//        System.out.println(evaluateContestPerformance("OmarRadwan", true));
+//        System.out.println(selectProblems(null, null, 0, 0, 0, 4));
+
     }
 }
 

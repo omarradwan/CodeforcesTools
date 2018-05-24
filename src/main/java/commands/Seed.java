@@ -23,6 +23,7 @@ public class Seed {
     private static ArrayList<ArrayList<Integer>> contestsPoints;
     private static ArrayList<ArrayList<Integer>> contestsPenalties;
     private static HashMap<String, AcceptedProblem> acceptedProblemsMap;
+    private static HashSet<Integer> usedContests;
     private static final String dataDirectory = "src/main/resources/data/";
     private static final String objectsDirectory = "objects/";
 
@@ -70,11 +71,11 @@ public class Seed {
     public static void init() {
         sc = new Scanner();
         users = new HashSet<>();
-        hacksScore = new ArrayList<>(1000);
+        hacksScore = new ArrayList<>();
         recentRanks = new ArrayList<>();
-        contestsPoints = new ArrayList<>(1000);
-        contestsPenalties = new ArrayList<>(1000);
-        for (int i = 0; i < 1000; i++) {
+        contestsPoints = new ArrayList<>();
+        contestsPenalties = new ArrayList<>();
+        for (int i = 0; i < 6000; i++) {
             hacksScore.add(new HashMap<String, Integer>());
             recentRanks.add(new HashMap<String, Integer>());
             contestsPoints.add(new ArrayList<Integer>());
@@ -90,12 +91,14 @@ public class Seed {
         File file = new File(dataDirectory + "contests");
         String[] directories = file.list();
 
+        usedContests = new HashSet<>();
         // process each contest
         for (String contestFile: directories) {
             // read single contest
             JSONObject contest = sc.readObject(dataDirectory + "contests/" + contestFile);
             JSONObject contestObject = (JSONObject) contest.get("contest");
             int contestId = ((Long)contestObject.get("id")).intValue();
+            usedContests.add(contestId);
             JSONArray rows = (JSONArray) contest.get("rows");
             // iterate over each row
             for (Object rowObject: rows) {
@@ -104,7 +107,7 @@ public class Seed {
                 JSONArray members = (JSONArray) ((JSONObject) row.get("party")).get("members");
                 String handle = (String) ((JSONObject)members.get(0)).get("handle");
                 // team contest or non-existing user
-                if (members.size() != 1 || !users.contains(handle))
+                if (members.size() != 1)
                     continue;
                 // assign contest scores
                 int successfulHacksScore = ((Long)row.get("successfulHackCount")).intValue() * 100;
@@ -114,7 +117,6 @@ public class Seed {
                 contestsPoints.get(contestId).add(((Long) row.get("points")).intValue());
                 contestsPenalties.get(contestId).add(((Long) row.get("penalty")).intValue());
             }
-            Collections.reverse(contestsPoints.get(contestId));
         }
     }
 
@@ -122,7 +124,11 @@ public class Seed {
         TreeMap<Integer, ArrayList<String>> usersRatings = new TreeMap<>();
         for (String handle: users) {
             // read user's rating
-            int userRating = ((Long) sc.readObject(dataDirectory + "users/" + handle + "/rating.json").get("rating")).intValue();
+            sc.readArray(dataDirectory + "users/" + handle + "/rating.json");
+            JSONObject ratingObj = (JSONObject) sc.nextObject();
+            int userRating = 1500;
+            if(ratingObj != null)
+                userRating = ((Long) ratingObj.getOrDefault("rating", 1500L)).intValue();
             if(!usersRatings.containsKey(userRating))
                 usersRatings.put(userRating, new ArrayList<String>());
             usersRatings.get(userRating).add(handle);
@@ -149,9 +155,11 @@ public class Seed {
             while (true) {
                 JSONObject submission = sc.nextObject();
                 if (submission == null) {
-                    curContest.setOldUserRank(recentRanks.get(lastContestId).get(handle));
-                    curContest.setUserPoints(points + hacksScore.get(lastContestId).get(handle));
-                    curContest.setUserPenalty(penalty);
+                    if (lastContestId != -1) {
+                        curContest.setOldUserRank(recentRanks.get(lastContestId).get(handle));
+                        curContest.setUserPoints(points + hacksScore.get(lastContestId).get(handle));
+                        curContest.setUserPenalty(penalty);
+                    }
                     break;
                 }
                 // filter non-contestants
@@ -163,7 +171,7 @@ public class Seed {
                     acceptedSubmissions.add(((Long) submission.get("creationTimeSeconds")).intValue());
                     JSONObject problem = (JSONObject) submission.get("problem");
                     problemId = "" + problem.get("contestId") + problem.get("index");
-                    long problemPoints = (long) problem.getOrDefault("points", 1000);
+                    long problemPoints = (long) problem.getOrDefault("points", 1000L);
                     ArrayList<String> tags = (ArrayList<String>) problem.getOrDefault("tags", new ArrayList<String>());
                     if(acceptedProblemsMap.containsKey(problemId)) {
                         acceptedProblemsMap.get(problemId).setPoints(problemPoints);
@@ -171,11 +179,11 @@ public class Seed {
                     }
                 }
 
-                if (!type.equals("CONTESTANT"))
+                curContestId = ((Long) submission.getOrDefault("contestId", -1L)).intValue();
+
+                if (!type.equals("CONTESTANT") || !usedContests.contains(curContestId))
                     continue;
 
-
-                curContestId = ((Long) submission.get("contestId")).intValue();
                 JSONObject problem = (JSONObject) submission.get("problem");
                 String problemIdx = (String) problem.get("index");
                 // start processing new contest
@@ -190,6 +198,8 @@ public class Seed {
                     curContest = user.getCurrentContest();
                     lastContestId = curContestId;
                     takenProblems.clear();
+                    points = 0;
+                    penalty = 0;
                 }
                 // already processed problem
                 if (!takenProblems.add(problemIdx))
@@ -205,7 +215,7 @@ public class Seed {
                 }
                 else {
                     points++;
-                    penalty += secs;
+                    penalty += secs / 60;
                 }
 
                 if (problemId != null &&  acceptedProblemsMap.containsKey(problemId) && !acceptedProblemsSet.contains(problemId)) {
@@ -233,7 +243,6 @@ public class Seed {
 
     public static void dumpToJson(Object object, String path) throws IOException {
         Gson gson = new Gson();
-//        System.err.println(gson.toJson(object));
         FileWriter writer =  new FileWriter(objectsDirectory + path + ".json");
         gson.toJson(object, writer);
         writer.close();
