@@ -1,7 +1,6 @@
 package algorithms;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.PriorityQueue;
 
 public class TopologicalOrdering {
@@ -27,7 +26,6 @@ public class TopologicalOrdering {
             for (int v: DAG[u])
                 p[v]++;
 
-        System.out.println(Arrays.toString(p));
         ArrayList<Integer> sortedDeadlocks = new ArrayList<>();
         for (int i = 0; i < N; i++)
             if (p[i] == 0)

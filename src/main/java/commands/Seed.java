@@ -39,8 +39,8 @@ public class Seed {
 
     private static void preprocessProblems() throws IOException, ParseException {
         JSONObject problems = sc.readObject(dataDirectory + "problems/problems.json");
-        JSONArray problemStatistics = (JSONArray) problems.get("problemStatistics");
         acceptedProblemsMap = new HashMap<>();
+        JSONArray problemStatistics = (JSONArray) problems.get("problemStatistics");
         for (int i = 0; i < problemStatistics.size(); i++) {
             JSONObject problem = (JSONObject) problemStatistics.get(i);
             String contestId = "" + problem.get("contestId");
@@ -48,6 +48,18 @@ public class Seed {
             long solvedCount = (long)problem.get("solvedCount");
             AcceptedProblem acceptedProblem = new AcceptedProblem(contestId, index, solvedCount);
             acceptedProblemsMap.put(contestId + index, acceptedProblem);
+        }
+
+        JSONArray problemsObject = (JSONArray) problems.get("problems");
+        for (int i = 0; i < problemsObject.size(); i++) {
+            JSONObject problem = (JSONObject) problemsObject.get(i);
+            String contestId = "" + problem.get("contestId");
+            String index = "" + problem.get("index");
+            long problemPoints = (long) problem.getOrDefault("points", 1000L);
+            ArrayList<String> problemTags = (ArrayList<String>) problem.getOrDefault("tags", new ArrayList<String>());
+            AcceptedProblem acceptedProblem = acceptedProblemsMap.get(contestId + index);
+            acceptedProblem.addTags(problemTags);
+            acceptedProblem.setPoints(problemPoints);
         }
 
         // Create list of problems sorted by problem count

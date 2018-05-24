@@ -27,10 +27,11 @@ public class Main {
     }
 
     public static void main(String[] args) throws IOException, ParseException {
-        seed();
+//        seed();
 //        System.out.println(evaluateContestPerformance("OmarRadwan", true));
 //        System.out.println(selectProblems(null, null, 0, 0, 0, 4));
-
+//        System.out.println(selectProblems(new String[] {"Kammola", "MeshOmarYasser"}, null, 1000, 3000, 50, 100));
+//        System.out.println(selectProblems(new String[] {"tourist", "Petr", "KrK", "uwi", "dreamoon"}, "math", 1000, 2000, 30, 100));
     }
 }
 
