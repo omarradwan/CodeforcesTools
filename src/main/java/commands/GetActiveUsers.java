@@ -28,6 +28,7 @@ public class GetActiveUsers {
 
 
     public static ArrayList<String> execute(int t1, int t2, int rLo, int rHi, int cnt) throws IOException, ParseException {
+        processUsersRatings();
         ArrayList<Pair> usersActivity = new ArrayList<>();
         for(int i = rLo; i <= rHi; i++){
             if(!usersRatings.containsKey(i)) continue;
@@ -40,7 +41,7 @@ public class GetActiveUsers {
                     if (submission == null) break;
                     submissions.add(Integer.parseInt(submission.toString()));
                 }
-                System.out.println(submissions);
+
                 int idxL = BinarySearch.upperBound(submissions, t1 - 1);
                 int idxR = BinarySearch.upperBound(submissions, t2);
                 int activity = idxR - idxL;
@@ -54,7 +55,7 @@ public class GetActiveUsers {
         return activeUsers;
     }
 
-    static class Pair implements Comparable {
+    static class Pair implements Comparable<Pair> {
         String handle;
         int activity;
 
@@ -63,10 +64,9 @@ public class GetActiveUsers {
             this.activity = activity;
         }
 
-
         @Override
-        public int compareTo(Object o) {
-            return (activity - ((Pair) o).activity);
+        public int compareTo(Pair o) {
+            return activity != o.activity? o.activity - activity : handle.compareTo(o.handle);
         }
     }
 }

@@ -27,11 +27,37 @@ public class Main {
     }
 
     public static void main(String[] args) throws IOException, ParseException {
-//        seed();
-//        System.out.println(evaluateContestPerformance("OmarRadwan", true));
-//        System.out.println(selectProblems(null, null, 0, 0, 0, 4));
-//        System.out.println(selectProblems(new String[] {"Kammola", "MeshOmarYasser"}, null, 1000, 3000, 50, 100));
-//        System.out.println(selectProblems(new String[] {"tourist", "Petr", "KrK", "uwi", "dreamoon"}, "math", 1000, 2000, 30, 100));
+        seed();
+        System.out.println("Contest Performance: \n");
+
+        System.out.println("KAMMOLA");
+        System.out.println(evaluateContestPerformance("Kammola", true) + "\n");
+
+        System.out.println("SOLIMAN");
+        System.out.println(evaluateContestPerformance("AhmedSoliman", true) + "\n");
+
+        System.out.println("MOSTAFA");
+        System.out.println(evaluateContestPerformance("MostafaAbdullah", true) + "\n");
+
+        System.out.println("SAGHEER");
+        System.out.println(evaluateContestPerformance("Ahmad_Elsagheer", true) + "\n");
+
+        System.out.println("\n\n\nActive Users: \n");
+
+
+        System.out.println(getActiveUsers(0, 2000000000, 0, 3000, 30) + "\n");
+        System.out.println(getActiveUsers(1000000000, 2000000000, 2000, 3500, 70) + "\n");
+        System.out.println(getActiveUsers(1400000000, 1500000000, 0, 3000, 30) + "\n");
+        System.out.println(getActiveUsers(0, 2000000000, 0, 2000, 30) + "\n");
+        System.out.println(getActiveUsers(0, 2000000000, 1000, 2000, 30) + "\n");
+
+        System.out.println("\n\n\nSelect Problems: \n");
+
+
+        System.out.println(selectProblems(new String[] {"Kammola", "MeshOmarYasser"}, null, 1000, 10000, 30, 100) + "\n");
+        System.out.println(selectProblems(new String[] {"Ahmad_Elsagheer", "AhmedSoliman", "MostafaAbdullah", "tourist"}, "math", 1000, 4000, 2, 36) + "\n");
+        System.out.println(selectProblems(new String[] {"tourist", "Petr", "KrK", "uwi", "dreamoon"}, "math", 1000, 10000, 30, 100) + "\n");
+
     }
 }
 

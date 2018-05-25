@@ -137,10 +137,10 @@ public class Seed {
         for (String handle: users) {
             // read user's rating
             sc.readArray(dataDirectory + "users/" + handle + "/rating.json");
-            JSONObject ratingObj = (JSONObject) sc.nextObject();
+            JSONObject ratingObj = sc.nextObject();
             int userRating = 1500;
             if(ratingObj != null)
-                userRating = ((Long) ratingObj.getOrDefault("rating", 1500L)).intValue();
+                userRating = ((Long) ratingObj.getOrDefault("newRating", 1500L)).intValue();
             if(!usersRatings.containsKey(userRating))
                 usersRatings.put(userRating, new ArrayList<String>());
             usersRatings.get(userRating).add(handle);

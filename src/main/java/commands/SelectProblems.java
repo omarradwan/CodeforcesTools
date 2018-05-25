@@ -99,7 +99,19 @@ public class SelectProblems {
     public static ArrayList<ArrayList<String>> execute(String[] handles, String tag, int minSolved, int maxSolved, int p, int cnt) throws IOException, ParseException {
         preprocess(handles, tag, minSolved, maxSolved, p);
         sortDeadlocks();
-        return sortProblems();
+        ArrayList<ArrayList<String>> totalResult =  sortProblems();
+        ArrayList<ArrayList<String>> subResult = new ArrayList<>();
+        int taken = 0;
+      L:for (ArrayList<String> deadlock: totalResult) {
+            subResult.add(new ArrayList<>());
+            for (String problem: deadlock) {
+                int currentDeadlock = subResult.size() - 1;
+                subResult.get(currentDeadlock).add(problem);
+                if (++taken == cnt)
+                    break L;
+            }
+        }
+        return subResult;
     }
 
     private static void sortDeadlocks() {
