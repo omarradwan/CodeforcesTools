@@ -1,6 +1,6 @@
 # CodeforcesTools
 ### Seeding
-Preproccessing the information from the given data, to be used in the datastructures used in the tasks.
+Preproccessing the information from the given data in a desired way for creating useful objects used in the tasks. These methods are called once at the beginning of the program.
 - void preprocessHandles() 
   getting all the user handles exist in the data to be used in reading user informations.
 - void preprocessContests()
@@ -26,3 +26,17 @@ Preproccessing the information from the given data, to be used in the datastruct
  - #### TimeComplexity:
   The number of the contests in which the user participate * log(the particpant in the contest).
   let Number of contests is c and particpant is n so time complexity is O(c*log(n)).
+  
+### GetActiveUsers
+- void processUsersRatings()
+  contrusting a treemap of the user ratings where the keys in it is the ratings and 
+  the value are the users which have these ratings. 
+-  ArrayList<String> execute(int t1, int t2, int rLo, int rHi, int cnt)
+   - iterate over the ratings in the range [rlo,rHi]. complexity: O(n) where 0 < n < 4000.
+     - for each rating value we get the users in this rating. complexity: O(m) where m is the number of users.
+        - for each user get the record of the accpepted submissions sorted and represented by its creation time. complexity: log(n)
+        - for each user submissions we retieve the number of submissions in the range [t1,t2] by using binary search.
+          complexity 2*log(k) where k is the number of submissions.
+   - sort the users according to the number of retrieved submissions. complexity: O(m*log(m))
+   - return the first cnt users from the sorted array.
+  Total complexity:O(MAX(m*log(k),m*log(m))).
