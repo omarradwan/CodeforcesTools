@@ -15,8 +15,8 @@ Preproccessing the information from the given data, to be used in the datastruct
 ### Contest Performance Task:
  - #### Prerocessing:
    First, we pass through the user's submission which found in status files filtering them by contests in which the user
-   particpate in. We calculate the penalty of each contest by the time of the first sumbission in each submitted problem. 
-   Then, we form contest preformance object for each user consists of user penalty, user's old rank, user's new points and save them in separate files.
+   particpate in. We calculate the penalty of each contest by the time of the first sumbission in each submitted problem
+   plus his hacking score this contest. Then, we form contest preformance object for each user consists of user penalty,          user's old rank, user's new points and save them in separate files.
       
  - #### Query:
   we read the contest preformance file of all contests that the user participate in. we binary search
