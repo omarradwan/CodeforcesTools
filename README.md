@@ -40,3 +40,27 @@ Preproccessing the information from the given data in a desired way for creating
    - sort the users according to the number of retrieved submissions. complexity: O(m*log(m))
    - return the first cnt users from the sorted array.
   Total complexity:O(MAX(m*log(k),m*log(m))).
+### Problems Selection
+  - void process()
+   - get the problems sorted according to the solved count. 
+   - read the first accepted submissions for solved problems of every user in the given handles. O(size(handles)
+   - iterate over the accepted submissions to count the number where problem x is solved before problem y. 
+     O(n) where n is the  number of problems
+   - iterate over the constructed map of the problems priority and form an edge between problem x and problem y if and only if
+     the count[x][y] is more than or equal percentCount (size(handles) * p/100). O(n^2)
+   - total complexity: O((n^2)*size(handles)).
+  -  void sortDeadlocks():
+    run strongly connected component to group deadlocks on the graph of adjacency list. 
+    Then construct importance and  lexicographical order arrays to sort deadlocks and run topological ordering.
+    O(n*log(n)) where n is the number of problems.
+  - void sortProblems():
+    sort the problems inside each deadlock. O(n*log(n)).
+  - ArrayList<ArrayList<String>> execute(String[] handles, String tag, int minSolved, int maxSolved, int p, int cnt):
+   - run scc on the adjacency list to get the graph of deadlocks.
+   - sort problems inside each deadlock.
+   - return fist cnt problem from the sorted deadlocks.
+   - Total complexity: O((n^2)*size(handles)) where n is the size of problems.
+  
+  
+  
+
